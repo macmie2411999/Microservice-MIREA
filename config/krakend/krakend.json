@@ -1,0 +1,55 @@
+{
+    "$schema": "https://www.krakend.io/schema/v3.json",
+    "version": 3,
+    "endpoints": [
+        {
+            "endpoint": "/v1/staffmembers",
+            "method": "GET",
+            "backend": [{
+                "url_pattern": "/v1/staffmembers",
+                "method": "GET",
+                "host": ["http://staffmembers"],
+                "is_collection": true,
+                "mapping": {
+                    "collection": "staffMembersList"
+                }
+            }]
+        },
+        {
+            "endpoint": "/v1/staffmembers/{idStaffMember}",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "backend": [{
+                "encoding": "no-op",
+                "url_pattern": "/v1/staffmembers/{idStaffMember}",
+                "method": "GET",
+                "host": ["http://staffmembers"]
+            }]
+        },
+        {
+            "endpoint": "/v1/data",
+            "method": "GET",
+            "backend": [
+                {
+                    "url_pattern": "/v1/staffmembers",
+                    "method": "GET",
+                    "host": ["http://staffmembers"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "staffMembersList"
+                    }
+                },
+                                {
+                    "url_pattern": "/v1/products",
+                    "method": "GET",
+                    "host": ["http://products"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "productsList"
+                    }
+                }
+            ]
+        }
+    ],
+    "extra_config": {}
+}

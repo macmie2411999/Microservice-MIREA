@@ -1,0 +1,9 @@
+pip freeze > requirements.txt
+docker build . -t image-staffmember
+docker run --name fastapi-staffmember -p 8000:80 image-staffmember
+
+pip freeze > requirements.txt
+docker build . -t image-product
+docker run --name fastapi-product -p 8001:80 image-product
+
+docker compose up --build

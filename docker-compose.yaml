@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  staffmembers:
+    build: ./StaffMemberService
+    ports:
+      - "8000:80"
+  products:
+    build: ./ProductService
+    ports:
+      - "8001:80"
+
+  krakend_ce:
+    image: devopsfaith/krakend:watch
+    volumes:
+      - ./config/krakend:/etc/krakend
+    ports:
+      - "8080:8080"
+    command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]
+    depends_on:
+      - staffmembers
+      - products
+
+
+
+
