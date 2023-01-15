@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 # from StaffMemberService.app.StaffMember import StaffMember # for IDE Pycharm
 from app.StaffMember import StaffMember, CreateStaffMemberModel # for Docker
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 staffMembersList: list[StaffMember] = [
     # StaffMember("205301", "Harry Potter", "30", "Admin"),
@@ -28,7 +29,7 @@ from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
 
 resource = Resource(attributes={
     SERVICE_NAME: "staffmembers-service"

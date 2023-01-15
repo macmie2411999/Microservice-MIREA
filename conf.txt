@@ -6,12 +6,20 @@ pip freeze > requirements.txt
 docker build . -t image-product
 docker run --name fastapi-product -p 8001:80 image-product
 
+docker compose up --build
+
 pip install flask
 pip install opentelemetry-distro
 pip install opentelemetry-exporter-jaeger
 pip install opentelemetry-instrumentation-fastapi
-pip install prometheus-fastapi-instrumentator
+pip freeze > requirements.txt
 
 docker compose up --build
+
+pip install prometheus-fastapi-instrumentator
+pip freeze > requirements.txt
+docker compose up --build
+
+
 
 
