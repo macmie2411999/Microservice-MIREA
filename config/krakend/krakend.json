@@ -16,6 +16,15 @@
             }]
         },
         {
+            "endpoint": "/v1/staffmembers",
+            "method": "POST",
+            "backend": [{
+                "url_pattern": "/v1/staffmembers",
+                "method": "POST",
+                "host": ["http://staffmembers"]
+            }]
+        },
+        {
             "endpoint": "/v1/staffmembers/{idStaffMember}",
             "method": "GET",
             "output_encoding": "no-op",
@@ -51,5 +60,25 @@
             ]
         }
     ],
-    "extra_config": {}
+    "extra_config": {
+        "telemetry/opencensus": {
+            "sample_rate": 100,
+            "reporting_period": 0,
+            "exporters": {
+                "jaeger": {
+                  "endpoint": "http://jaeger:14268/api/traces",
+                  "service_name":"krakend",
+                  "buffer_max_count": 1000
+                },
+                "prometheus": {
+                    "port": 9091,
+                    "namespace": "krakend",
+                    "tag_host": false,
+                    "tag_path": true,
+                    "tag_method": true,
+                    "tag_statuscode": false
+                }
+            }
+        }
+    }
 }

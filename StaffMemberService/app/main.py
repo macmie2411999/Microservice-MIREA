@@ -22,7 +22,6 @@ def addStaffmember(context: CreateStaffMemberModel):
 
 app = FastAPI()
 
-##########
 # Jaeger
 from opentelemetry import trace
 from opentelemetry.exporter.jaeger.thrift import JaegerExporter
@@ -54,16 +53,11 @@ FastAPIInstrumentor.instrument_app(app)
 # Prometheus
 
 from prometheus_fastapi_instrumentator import Instrumentator
-
-
 @app.on_event("startup")
 async def startup():
     Instrumentator().instrument(app).expose(app)
 
-
-#
 ##########
-
 @app.get("/v1/staffmembers")
 async def getStaffMembersList():
     return staffMembersList
