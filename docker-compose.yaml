@@ -17,6 +17,15 @@ services:
     ports:
       - "8001:80"
 
+  auth_s:
+    build: ./auth_service
+    volumes:
+      - ./auth_service:/code
+    ports:
+      - "8010:8000"
+    environment:
+      JWT_SECRETE: jwt_secrete
+
   krakend_ce:
     image: devopsfaith/krakend:watch
     volumes:
@@ -27,6 +36,7 @@ services:
     depends_on:
       - staffmembers
       - products
+      - auth_s
 
   jaeger:
     image: jaegertracing/all-in-one:latest

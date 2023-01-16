@@ -13,7 +13,17 @@
                 "mapping": {
                     "collection": "staffMembersList"
                 }
-            }]
+            }],
+            "extra_config": {
+                "auth/validator": {
+                  "alg": "HS256",
+                  "roles": ["user", "admin"],
+                  "roles_key": "roles",
+                  "jwk_local_path": "jwk_private_key.json",
+                  "disable_jwk_security": true,
+                  "operation_debug": true
+                }
+            }
         },
         {
             "endpoint": "/v1/staffmembers",
@@ -35,6 +45,29 @@
                 "host": ["http://staffmembers"]
             }]
         },
+         {
+            "endpoint": "/v1/login",
+            "method":  "POST",
+            "backend": [
+              {
+                "url_pattern": "/api/login",
+                "encoding": "safejson",
+                "host": [
+                    "http://auth_s:8000"
+                ]
+              }
+            ],
+            "extra_config": {
+              "auth/signer": {
+                "alg": "HS256",
+                "jwk_local_path": "jwk_private_key.json",
+                "keys_to_sign": ["access_token"],
+                "disable_jwk_security": true,
+                "full": false,
+                "kid": "sim2"
+              }
+            }
+          }    ,
         {
             "endpoint": "/v1/data",
             "method": "GET",
@@ -61,6 +94,16 @@
         }
     ],
     "extra_config": {
+        "router": {
+          "return_error_msg": false
+        },
+        "security/cors": {
+          "allow_origins": ["*"],
+          "allow_methods": ["POST", "GET"],
+          "allow_headers": ["Origin", "Authorization", "Content-Type"],
+          "expose_headers": ["Content-Length"],
+          "max_age": "12h"
+        },
         "telemetry/opencensus": {
             "sample_rate": 100,
             "reporting_period": 0,
